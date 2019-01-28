@@ -10,14 +10,14 @@ class ArticleServiceProvider extends ServiceProvider
 {
     public function boot(Router $router)
     {
-        $this->publishes([__DIR__ . '/Config/article.php' => config_path('article.php'),], 'article');
+        $this->publishes([__DIR__ . '/Config/article.php' => config_path('article/article.php'),], 'article');
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/article.php', 'article');
 
-        $this->app->singleton('article', function () {
+        $this->app->singleton(ArticleManager::class, function () {
             return new ArticleManager($this->app);
         });
     }

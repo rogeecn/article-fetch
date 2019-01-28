@@ -4,9 +4,23 @@ namespace rogeecn\ArticleFetch\Classes;
 
 use Closure;
 use InvalidArgumentException;
+use rogeecn\ArticleFetch\Contracts\Content;
 use rogeecn\ArticleFetch\Contracts\Store;
+use rogeecn\ArticleFetch\Contracts\Summary;
 
 
+/**
+ * Class ArticleManager
+ *
+ *
+ * @method full($id);
+ * @method Summary[] itemsAtPage($page = 1, $pageSize = 20, $categoryID = null)
+ * @method Summary summary($id)
+ * @method Content content($id)
+ *
+ *
+ * @package rogeecn\ArticleFetch\Classes
+ */
 class ArticleManager
 {
     private   $app;
@@ -61,10 +75,10 @@ class ArticleManager
     protected function createRedisDriver(array $config)
     {
         $redis = $this->app['redis'];
-
+        $prefix = config('article.drivers.redis.prefix');
         $connection = $config['connection'] ?? 'default';
 
-        return $this->repository(new \rogeecn\ArticleFetch\Classes\Drivers\RedisStore($redis, $connection));
+        return $this->repository(new \rogeecn\ArticleFetch\Classes\Drivers\RedisStore($redis, $prefix, $connection));
     }
 
     protected function resolve($name)
@@ -96,7 +110,7 @@ class ArticleManager
 
     protected function getConfig($name)
     {
-        return $this->app['article']["article.drivers.{$name}"];
+        return $this->app['config']["article.drivers.{$name}"];
     }
 
     public function driver($driver = null)

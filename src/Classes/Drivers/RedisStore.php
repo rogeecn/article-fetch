@@ -6,8 +6,8 @@ use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Support\Facades\Storage;
 use rogeecn\ArticleFetch\Contracts\Content;
 use rogeecn\ArticleFetch\Contracts\Summary;
-use Rogeecn\ArticleFetch\Exceptions\FetchContentDataFail;
-use Rogeecn\ArticleFetch\Exceptions\FetchSummaryDataFail;
+use rogeecn\ArticleFetch\Exceptions\FetchContentDataFail;
+use rogeecn\ArticleFetch\Exceptions\FetchSummaryDataFail;
 
 Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 {
@@ -50,7 +50,7 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     public function setPrefix($prefix)
     {
-        $this->prefix = !empty($prefix) ? $prefix . ':' : '';
+        $this->prefix = !empty($prefix) ? $prefix : '';
     }
 
     public function setConnection($connection)
@@ -70,12 +70,12 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
         $keys = $this->connection()->lrange(
             $this->getKey($this->prefix, $categoryID),
             $startPosition,
-            $pageSize + $startPosition
+            $pageSize + $startPosition - 1
         );
 
         return collect($keys)->map(function ($key) {
             try {
-                $this->summary($key);
+                return $this->summary($key);
             } catch (\Exception $e) {
                 report($e);
                 return null;
@@ -93,13 +93,18 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     public function summary($id): Summary
     {
-        $summaryStoreKey = config('article.redis.store.summary');
-        if ($this->connection()->exists($summaryStoreKey)) {
+        $summaryStoreKey = config('article.drivers.redis.store.summary');
+        if ($isExists = $this->connection()->hexists($summaryStoreKey, $id)) {
             $summaryData = $this->connection()->hget($summaryStoreKey, $id);
         } else {
             $filePath = "summary/{$id}.json";
             $summaryData = Storage::cloud()->get($filePath);
+
+            if (env("APP_ENV") == 'local') {
+                $this->connection()->hset($summaryStoreKey, $id, $summaryData);
+            }
         }
+
         $summaryData = json_decode($summaryData, true);
         if (!$summaryData) {
             throw new FetchSummaryDataFail();
@@ -123,9 +128,9 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     private function getKey($prefix, $categoryID = null)
     {
-        $key = $this->prefix . "_";
+        $key = $prefix;
         if (!is_null($categoryID)) {
-            $key = $prefix;
+            $key .= ":category_{$categoryID}";
         }
         return $key;
     }

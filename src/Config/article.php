@@ -1,11 +1,15 @@
 <?php
 
 return [
-    'default' => env('ARTICLE_LIST_DRIVER', 'database'),
+    'default' => env('ARTICLE_LIST_DRIVER', 'redis'),
     'drivers' => [
-        'database' => 'mysql',
+        'database' => [
+            'driver'     => 'mysql',
+            'connection' => env('ARTICLE_DATABASE_CONNECTION', 'default'),
+        ],
         'redis'    => [
-            'prefix'     => env('ARTICLE_REDIS_PREFIX', ''),
+            'driver'     => 'redis',
+            'prefix'     => env('APP_ID', 'please_define_prefix'),
             'connection' => env('ARTICLE_REDIS_CONNECTION', 'default'),
             'store'      => [
                 'summary' => env('ARTICLE_REDIS_STORE_SUMMARY', 'article_data'),

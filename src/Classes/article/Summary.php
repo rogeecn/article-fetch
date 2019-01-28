@@ -3,6 +3,8 @@
 namespace rogeecn\ArticleFetch\Classes\article;
 
 
+use Vinkla\Hashids\Facades\Hashids;
+
 class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
 {
     private $id;
@@ -22,6 +24,16 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
         $this->description = $data['description'];
         $this->head_image = $data['head_image'];
         $this->source_url = $data['source_url'];
+    }
+
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function hashID()
+    {
+        return Hashids::encode($this->id());
     }
 
     public function title()

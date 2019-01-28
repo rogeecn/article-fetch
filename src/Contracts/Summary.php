@@ -5,6 +5,10 @@ namespace rogeecn\ArticleFetch\Contracts;
 
 interface Summary
 {
+    public function id();
+
+    public function hashID();
+
     public function title();
 
     public function author();

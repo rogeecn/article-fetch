@@ -1,6 +1,6 @@
 <?php
 
-namespace Rogeecn\ArticleFetch\Exceptions;
+namespace rogeecn\ArticleFetch\Exceptions;
 
 use Exception;
 
