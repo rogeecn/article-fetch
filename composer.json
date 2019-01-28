@@ -1,0 +1,27 @@
+{
+    "name": "rogeecn/ArticleFetch",
+    "description": "Laravel package",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": ">=7.0",
+        "illuminate/support": "5.*"
+    },
+    "author": {
+        "name": "Rogee ",
+        "email": "rogeecn@gmail.com"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rogeecn\\ArticleFetch\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rogeecn\\ArticleFetch\\ArticleFetchServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
