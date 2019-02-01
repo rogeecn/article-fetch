@@ -64,6 +64,11 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
     }
 
 
+    public function size($categoryID = null)
+    {
+        return $this->connection()->llen($this->getKey($this->prefix, $categoryID));
+    }
+
     public function itemsAtPage($page = 1, $pageSize = 20, $categoryID = null)
     {
         $startPosition = ($page - 1) * $pageSize;
