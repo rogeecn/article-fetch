@@ -63,6 +63,17 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
         return $this->redis->connection($this->connection);
     }
 
+    public function random($size = 5, $categoryID = null)
+    {
+        $keys = [];
+        for ($i = 0; $i < $size; $i++) {
+            $start = mt_rand(0, $this->size($categoryID) - $size);
+            $keys[] = $this->connection()->lindex($this->getKey($this->prefix, $categoryID), $start);
+        }
+
+        return $this->getItemsFromKeys($keys);
+    }
+
 
     public function size($categoryID = null)
     {
@@ -78,6 +89,11 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
             $pageSize + $startPosition - 1
         );
 
+        return $this->getItemsFromKeys($keys);
+    }
+
+    private function getItemsFromKeys($keys)
+    {
         return collect($keys)->map(function ($key) {
             try {
                 return $this->summary($key);

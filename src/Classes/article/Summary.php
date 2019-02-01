@@ -41,7 +41,7 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
 
     public function title()
     {
-        return $this->title;
+        return html_entity_decode($this->title);
     }
 
     public function author(): \rogeecn\ArticleFetch\Contracts\Author

@@ -16,6 +16,7 @@ use rogeecn\ArticleFetch\Contracts\Summary;
  * @method full($id);
  * @method Summary[] itemsAtPage($page = 1, $pageSize = 20, $categoryID = null)
  * @method int size($categoryID = null)
+ * @method Summary[] random($size = 10, $categoryID = null)
  * @method Summary summary($id)
  * @method Content content($id)
  *
