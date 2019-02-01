@@ -21,6 +21,11 @@ class Content implements \rogeecn\ArticleFetch\Contracts\Content
 
     public function content()
     {
-        return $this->content;
+//        return $this->content;
+//
+//        echo "\n\n\n----------------\n\n\n";
+
+        return \rogeecn\ArticleConf\Facads\Content::replaceImage($this->content);
+        exit;
     }
 }

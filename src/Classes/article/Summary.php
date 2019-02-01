@@ -3,6 +3,7 @@
 namespace rogeecn\ArticleFetch\Classes\article;
 
 
+use Carbon\Carbon;
 use Vinkla\Hashids\Facades\Hashids;
 
 class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
@@ -14,6 +15,7 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
     private $description;
     private $head_image;
     private $source_url;
+    private $created_at;
 
     public function __construct($data)
     {
@@ -24,6 +26,7 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
         $this->description = $data['description'];
         $this->head_image = $data['head_image'];
         $this->source_url = $data['source_url'];
+        $this->created_at = $data['created_at'];
     }
 
     public function id()
@@ -41,9 +44,9 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
         return $this->title;
     }
 
-    public function author()
+    public function author(): \rogeecn\ArticleFetch\Contracts\Author
     {
-        return $this->author_id;
+        return new Author($this->author_id);
     }
 
     public function category()
@@ -64,5 +67,10 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
     public function sourceURL()
     {
         return $this->source_url;
+    }
+
+    public function publishAt()
+    {
+        return Carbon::createFromTimestamp($this->created_at)->format("y/m/d");
     }
 }
