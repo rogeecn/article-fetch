@@ -4,6 +4,7 @@ namespace rogeecn\ArticleFetch\Classes\Drivers;
 
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Support\Facades\Storage;
+use rogeecn\ArticleConf\Classes\CategoryItem;
 use rogeecn\ArticleFetch\Contracts\Content;
 use rogeecn\ArticleFetch\Contracts\Summary;
 use rogeecn\ArticleFetch\Exceptions\FetchContentDataFail;
@@ -80,11 +81,11 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
         return $this->connection()->llen($this->getKey($this->prefix, $categoryID));
     }
 
-    public function itemsAtPage($page = 1, $pageSize = 20, $categoryID = null)
+    public function itemsAtPage($page = 1, $pageSize = 20, CategoryItem $category = null)
     {
         $startPosition = ($page - 1) * $pageSize;
         $keys = $this->connection()->lrange(
-            $this->getKey($this->prefix, $categoryID),
+            $this->getKey($this->prefix, $category ? $category->id : null),
             $startPosition,
             $pageSize + $startPosition - 1
         );

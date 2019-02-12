@@ -2,9 +2,11 @@
 
 namespace rogeecn\ArticleFetch\Contracts;
 
+use rogeecn\ArticleConf\Classes\CategoryItem;
+
 interface Store
 {
-    public function itemsAtPage($page = 1, $pageSize = 20, $categoryID = null);
+    public function itemsAtPage($page = 1, $pageSize = 20, CategoryItem $category = null);
 
     public function random($size = 10, $categoryID = null);
 
