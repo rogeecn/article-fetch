@@ -11,7 +11,7 @@ interface Summary
 
     public function title();
 
-    public function author(): \rogeecn\ArticleFetch\Contracts\Author;
+    public function author(): Author;
 
     public function publishAt();
 

@@ -4,6 +4,7 @@ namespace rogeecn\ArticleFetch\Classes\article;
 
 
 use Carbon\Carbon;
+use rogeecn\ArticleFetch\Facades\Article;
 use Vinkla\Hashids\Facades\Hashids;
 
 class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
@@ -46,7 +47,7 @@ class Summary implements \rogeecn\ArticleFetch\Contracts\Summary
 
     public function author(): \rogeecn\ArticleFetch\Contracts\Author
     {
-        return new Author($this->author_id);
+        return Article::author($this->author_id);
     }
 
     public function category()

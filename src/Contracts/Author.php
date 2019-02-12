@@ -9,5 +9,4 @@ interface Author
 
     public function name();
 
-    public function posts($count = 20);
 }

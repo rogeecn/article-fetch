@@ -4,21 +4,12 @@ namespace rogeecn\ArticleFetch\Classes;
 
 use Closure;
 use InvalidArgumentException;
-use rogeecn\ArticleFetch\Contracts\Content;
 use rogeecn\ArticleFetch\Contracts\Store;
-use rogeecn\ArticleFetch\Contracts\Summary;
 
 
 /**
  * Class ArticleManager
  *
- *
- * @method full($id);
- * @method Summary[] itemsAtPage($page = 1, $pageSize = 20, $categoryID = null)
- * @method int size($categoryID = null)
- * @method Summary[] random($size = 10, $categoryID = null)
- * @method Summary summary($id)
- * @method Content content($id)
  *
  *
  * @package rogeecn\ArticleFetch\Classes

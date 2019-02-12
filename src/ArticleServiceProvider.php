@@ -5,6 +5,7 @@ namespace rogeecn\ArticleFetch;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use rogeecn\ArticleFetch\Classes\ArticleManager;
+use rogeecn\ArticleFetch\Contracts\Store;
 
 class ArticleServiceProvider extends ServiceProvider
 {

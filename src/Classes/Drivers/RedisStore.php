@@ -5,6 +5,7 @@ namespace rogeecn\ArticleFetch\Classes\Drivers;
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Support\Facades\Storage;
 use rogeecn\ArticleConf\Classes\CategoryItem;
+use rogeecn\ArticleFetch\Contracts\Author;
 use rogeecn\ArticleFetch\Contracts\Content;
 use rogeecn\ArticleFetch\Contracts\Summary;
 use rogeecn\ArticleFetch\Exceptions\FetchContentDataFail;
@@ -111,6 +112,18 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
             'summary' => $this->summary($id),
             'content' => $this->content($id),
         ]);
+    }
+
+    public function author($id): Author
+    {
+        $cacheKey = config('article.drivers.redis.store.author');
+
+        $data = "";
+        if ($isExists = $this->connection()->hexists($cacheKey, $id)) {
+            $data = $this->connection()->hget($cacheKey, $id);
+        }
+
+        return new \rogeecn\ArticleFetch\Classes\article\Author($id, $data);
     }
 
     public function summary($id): Summary
