@@ -67,9 +67,14 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     public function random($size = 5, $categoryID = null)
     {
+        $listSize = $this->size($categoryID);
+        if ($listSize <= 0) {
+            return [];
+        }
+
         $keys = [];
         for ($i = 0; $i < $size; $i++) {
-            $start = mt_rand(0, $this->size($categoryID) - $size);
+            $start = mt_rand(0, $listSize - $size);
             $keys[] = $this->connection()->lindex($this->getKey($this->prefix, $categoryID), $start);
         }
 
