@@ -170,7 +170,7 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
     {
         $key = "SITE_" . $prefix;
         if (!is_null($categoryID)) {
-            $key .= ":category_{$categoryID}";
+            $key .= ":{$categoryID}";
         }
         return $key;
     }
