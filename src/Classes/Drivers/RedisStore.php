@@ -168,7 +168,7 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     private function getKey($prefix, $categoryID = null)
     {
-        $key = $prefix;
+        $key = "SITE_" . $prefix;
         if (!is_null($categoryID)) {
             $key .= ":category_{$categoryID}";
         }
