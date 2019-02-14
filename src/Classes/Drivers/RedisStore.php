@@ -2,6 +2,7 @@
 
 namespace rogeecn\ArticleFetch\Classes\Drivers;
 
+use App\CacheKey;
 use Illuminate\Contracts\Redis\Factory as Redis;
 use Illuminate\Support\Facades\Storage;
 use rogeecn\ArticleConf\Classes\CategoryItem;
@@ -168,7 +169,7 @@ Class RedisStore implements \rogeecn\ArticleFetch\Contracts\Store
 
     private function getKey($prefix, $categoryID = null)
     {
-        $key = "SITE_" . $prefix;
+        $key = CacheKey::SITE_RECENT_LIST . $prefix;
         if (!is_null($categoryID)) {
             $key .= ":{$categoryID}";
         }
