@@ -15,13 +15,13 @@
   ],
   "autoload": {
     "psr-4": {
-      "Rogeecn\\ArticleFetch\\": "src/"
+      "rogeecn\\ArticleFetch\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Rogeecn\\ArticleFetch\\ArticleFetchServiceProvider"
+        "rogeecn\\ArticleFetch\\ArticleFetchServiceProvider"
       ]
     }
   },
